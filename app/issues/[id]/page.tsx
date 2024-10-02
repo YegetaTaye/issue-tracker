@@ -31,4 +31,6 @@ const IssueDetailPage = async ({ params }: props) => {
   );
 };
 
+export const dynamic = 'force-dynamic';
+
 export default IssueDetailPage;
