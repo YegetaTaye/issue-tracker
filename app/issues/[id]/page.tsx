@@ -1,9 +1,10 @@
 import prisma from "@/prisma/client";
-import { Box, Grid } from "@radix-ui/themes";
+import { Box, Flex, Grid } from "@radix-ui/themes";
 import delay from "delay";
 import { notFound } from "next/navigation";
-import EditIssuePage from "./EditIssuePage";
+import EditIssueButton from "./EditIssueButton";
 import IssueDetail from "./IssueDetail";
+import DeleteIssueButton from "./DeleteIssueButton";
 
 interface props {
   params: { id: string };
@@ -20,17 +21,20 @@ const IssueDetailPage = async ({ params }: props) => {
   // await delay(2000);
 
   return (
-    <Grid columns={{ initial: "1", md: "2" }} gap={"5"}>
-      <Box>
+    <Grid columns={{ initial: "1", sm: "5" }} gap={"5"}>
+      <Box className="md:col-span-3">
         <IssueDetail issue={issue} />
       </Box>
       <Box>
-        <EditIssuePage issueId={issue.id} />
+        <Flex gap="4" direction="column">
+          <EditIssueButton issueId={issue.id} />
+          <DeleteIssueButton issueId={issue.id} />
+        </Flex>
       </Box>
     </Grid>
   );
 };
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 export default IssueDetailPage;

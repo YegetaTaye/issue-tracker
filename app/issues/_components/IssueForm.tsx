@@ -14,10 +14,9 @@ import { Controller, useForm } from "react-hook-form";
 import SimpleMDE from "react-simplemde-editor";
 import { z } from "zod";
 
-
 type IssueFormData = z.infer<typeof issueSchema>;
 
-const IssueForm = ({issue}: {issue?: Issue}) => {
+const IssueForm = ({ issue }: { issue?: Issue }) => {
   const {
     register,
     control,
@@ -31,10 +30,8 @@ const IssueForm = ({issue}: {issue?: Issue}) => {
   const onSubmit = handleSubmit(async (data) => {
     try {
       setIsSubmitting(true);
-      if (issue)
-        await axios.patch(`/api/issues/${issue.id}`, data);
-      else
-        await axios.post("/api/issues", data);
+      if (issue) await axios.patch(`/api/issues/${issue.id}`, data);
+      else await axios.post("/api/issues", data);
 
       router.push("/issues");
       router.refresh();
@@ -43,9 +40,9 @@ const IssueForm = ({issue}: {issue?: Issue}) => {
       setError("An unexpected error occured");
       console.log(error);
     }
-  })
+  });
 
-//    delay(2000);
+  //    delay(2000);
 
   return (
     <div className="max-w-xl">
@@ -54,11 +51,12 @@ const IssueForm = ({issue}: {issue?: Issue}) => {
           <Callout.Text>{error}</Callout.Text>
         </Callout.Root>
       )}
-      <form
-        className=" space-y-3"
-        onSubmit={onSubmit}
-      >
-        <TextField.Root defaultValue={issue?.title} placeholder="Title" {...register("title")} />
+      <form className=" space-y-3" onSubmit={onSubmit}>
+        <TextField.Root
+          defaultValue={issue?.title}
+          placeholder="Title"
+          {...register("title")}
+        />
         <ErrorMessage>{errors.title?.message}</ErrorMessage>
         <Controller
           name="description"
@@ -70,7 +68,8 @@ const IssueForm = ({issue}: {issue?: Issue}) => {
         />
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
         <Button disabled={isSubmitting}>
-          {issue ? 'Edit Issue': 'Add New Issue '} {isSubmitting && <Spinner></Spinner>}{" "}
+          {issue ? "Edit Issue" : "Add New Issue "}{" "}
+          {isSubmitting && <Spinner />}{" "}
         </Button>
       </form>
     </div>
