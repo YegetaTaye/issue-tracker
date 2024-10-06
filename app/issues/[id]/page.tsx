@@ -8,6 +8,8 @@ import DeleteIssueButton from "./DeleteIssueButton";
 import authOptions from "@/app/auth/authOptions";
 import { getServerSession } from "next-auth";
 import AssigneeSelect from "./AssigneeSelect";
+import { title } from "process";
+import { Description } from "@radix-ui/themes/dist/esm/components/alert-dialog.js";
 
 interface props {
   params: { id: string };
@@ -44,5 +46,16 @@ const IssueDetailPage = async ({ params }: props) => {
 };
 
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata({ params }: Props) {
+  const issue = await prisma.issue.findUnique({
+    where: { id: parseInt(params.id) },
+  });
+
+  return {
+    title: issue?.title,
+    description: "Details of Issue " + issue?.id,
+  };
+}
 
 export default IssueDetailPage;
