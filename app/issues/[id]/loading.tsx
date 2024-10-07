@@ -1,6 +1,5 @@
-import IssueStatusBadge from '@/app/components/IssueStatusBadge'
-import { Box, Flex, Card } from '@radix-ui/themes'
 import { Skeleton } from '@/app/components';
+import { Box, Card, Flex } from '@radix-ui/themes';
 
 const loading = () => {
   return (

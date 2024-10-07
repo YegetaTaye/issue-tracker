@@ -1,11 +1,12 @@
 "use client";
 
+import React from "react";
+import { Spinner } from "@/app/components";
 import { TrashIcon } from "@radix-ui/react-icons";
 import { AlertDialog, Button, Flex } from "@radix-ui/themes";
 import axios from "axios";
-import { Spinner } from "@/app/components";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import { useState } from "react";
 
 const DeleteIssueButton = ({ issueId }: { issueId: Number }) => {
   const router = useRouter();

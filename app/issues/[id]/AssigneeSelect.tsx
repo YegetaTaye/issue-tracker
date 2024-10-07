@@ -1,12 +1,11 @@
 "use client";
-
+import React from "react";
 import { Issue, User } from "@prisma/client";
 import { Select } from "@radix-ui/themes";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import React, { useState, useEffect } from "react";
-import Skeleton from "../../components/Skeleton";
 import toast, { Toaster } from "react-hot-toast";
+import Skeleton from "../../components/Skeleton";
 
 const AssigneeSelect = ({ issue }: { issue: Issue }) => {
   const { data: users, error, isLoading } = useUsers();

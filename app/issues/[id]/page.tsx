@@ -1,15 +1,17 @@
+import authOptions from "@/app/auth/authOptions";
 import prisma from "@/prisma/client";
 import { Box, Flex, Grid } from "@radix-ui/themes";
-import delay from "delay";
+import { getServerSession } from "next-auth";
 import { notFound } from "next/navigation";
+import { cache } from "react";
+import AssigneeSelect from "./AssigneeSelect";
+import DeleteIssueButton from "./DeleteIssueButton";
 import EditIssueButton from "./EditIssueButton";
 import IssueDetail from "./IssueDetail";
-import DeleteIssueButton from "./DeleteIssueButton";
-import authOptions from "@/app/auth/authOptions";
-import { getServerSession } from "next-auth";
-import AssigneeSelect from "./AssigneeSelect";
-import { title } from "process";
-import { Description } from "@radix-ui/themes/dist/esm/components/alert-dialog.js";
+
+const fetchUser = cache((issueId: number) =>
+  prisma.issue.findUnique({ where: { id: issueId } })
+);
 
 interface props {
   params: { id: string };
@@ -18,14 +20,9 @@ interface props {
 const IssueDetailPage = async ({ params }: props) => {
   const session = await getServerSession(authOptions);
 
-  const issue = await prisma.issue.findUnique({
-    where: {
-      id: parseInt(params.id),
-    },
-  });
+  const issue = await fetchUser(parseInt(params.id));
 
   if (!issue) notFound();
-  // await delay(2000);
 
   return (
     <Grid columns={{ initial: "1", sm: "5" }} gap={"5"}>
@@ -47,10 +44,8 @@ const IssueDetailPage = async ({ params }: props) => {
 
 export const dynamic = "force-dynamic";
 
-export async function generateMetadata({ params }: Props) {
-  const issue = await prisma.issue.findUnique({
-    where: { id: parseInt(params.id) },
-  });
+export async function generateMetadata({ params }: props) {
+  const issue = await fetchUser(parseInt(params.id));
 
   return {
     title: issue?.title,

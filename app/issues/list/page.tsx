@@ -2,9 +2,9 @@ import Pagination from "@/app/components/Pagination";
 import prisma from "@/prisma/client";
 import { Issue, Status } from "@prisma/client";
 import { Flex } from "@radix-ui/themes";
+import { Metadata } from "next";
 import IssueActions from "./IssueActions";
 import IssueTable, { columnNames } from "./IssueTable";
-import { Metadata } from "next";
 
 export interface searchQuery {
   status: Status;
